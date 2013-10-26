@@ -32,7 +32,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 ########## END DEBUG CONFIGURATION
 
-
+ 
 ########## MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
@@ -162,6 +162,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 ########## END MIDDLEWARE CONFIGURATION
 
@@ -199,6 +200,8 @@ THIRD_PARTY_APPS = (
 
     # Asynchronous task queue:
     'djcelery',
+
+    'registration',
 )
 
 LOCAL_APPS = (
@@ -274,3 +277,9 @@ COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
 ########## END COMPRESSION CONFIGURATION
+
+
+
+########## REGISTRATION 
+
+ACCOUNT_ACTIVATION_DAYS = 7
