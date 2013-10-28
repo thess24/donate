@@ -14,3 +14,4 @@ urlpatterns = patterns('',
     (r'^accounts/', include('registration.urls')),
     url(r'', include('apps.main.urls')),
 )
+ 
