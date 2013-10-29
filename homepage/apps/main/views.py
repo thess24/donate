@@ -3,7 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from apps.main.models import List, Item
 import datetime
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.contrib.auth.decorators import login_required
 
+@login_required() 
 def index(request):
 	lists = List.objects.filter(user=request.user)
 	items = Item.objects.filter(listfk__user = request.user)
