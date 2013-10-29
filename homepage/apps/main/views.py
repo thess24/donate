@@ -1,6 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
 from apps.main.models import List, Item
+from apps.main.models import ListForm, ItemForm
 import datetime
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
@@ -10,8 +11,17 @@ def index(request):
 	lists = List.objects.filter(user=request.user)
 	items = Item.objects.filter(listfk__user = request.user)
 
+	form = ItemForm()
+
 	if request.method=='POST':
-		if 'delete' in request.POST:
+		if 'additem' in request.POST:
+			form = ItemForm(request.POST)
+			if form.is_valid():
+				instance = form.save(commit=False)
+				instance.user = request.user
+				instance.save()
+
+		elif 'delete' in request.POST:
 			itemid = request.POST['id']
 			Item.objects.get(id=itemid).delete()
 
@@ -26,17 +36,23 @@ def index(request):
 			listid = request.POST['id']
 			List.objects.get(id=listid).delete()
 
-	context= {'lists':lists, 'items':items}
+	context= {'lists':lists, 'items':items, 'form':form}
 	return render(request, 'main/index.html', context)
 
-
+@login_required() 
 def list(request):
 	lists = List.objects.filter(user=request.user)
 	items = Item.objects.filter(listfk__user = request.user)
 
 	if request.method=='POST':
 		if 'add' in request.POST:
-			pass
+			form = ListForm(request.POST)
+			if form.is_valid():
+				instance = form.save(commit=False)
+				instance.user = request.user
+				instance.save()
 
-	context= {'lists':lists, 'items':items}
+	else: form = ListForm()
+
+	context= {'lists':lists, 'items':items, 'form':form}
 	return render(request, 'main/list.html', context)

@@ -49,7 +49,7 @@
   }
 </style>
 {% endblock %}
-
+ 
 
 {% block content %} 
         <div class="page-header">
@@ -77,8 +77,19 @@
           </div>
         </div>
         
-        <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</p>
-
+          <form method='post' class="form-inline" role="form">{% csrf_token %}
+            <div class="form-group">
+                {{form.listfk}}
+            </div>
+            <div class="form-group">
+                {{form.text}}
+            </div>            
+            <div class="form-group">
+                {{form.url}}
+            </div>
+            <button type="submit" class="btn btn-default" name='additem'>Add Item</button>
+          </form>
+<hr>
         <div class='row'>
           <div class='col-md-12'>
               <div class='col-md-6'>
@@ -181,6 +192,14 @@ $(function(){
         $(this).find('.choicesrow').hide();
     });
 });
+
+$(function(){
+    $('#id_listfk').addClass('form-control');
+    $('#id_url').addClass('form-control').attr('placeholder', "Link");
+    $('#id_text').addClass('form-control').attr('placeholder', "Text");
+});
+
+
 </script>
 
 {% endblock %}

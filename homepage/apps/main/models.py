@@ -51,6 +51,19 @@ class Item(models.Model):
 		return self.text
 
 
-# add item form for plus sign
 
-# add list form for new page
+
+##########    FORMS   ############
+
+
+
+class ListForm(ModelForm):
+	class Meta:
+		model = List
+		exclude = ['user', 'date']
+
+
+class ItemForm(ModelForm):
+	class Meta:
+		model = Item
+		exclude = ['date', 'complete', 'completed_time']
