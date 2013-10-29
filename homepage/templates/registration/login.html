@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head %}
+<style type="text/css">
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+	<form method="post" action="." class="form-signin">
+	  {% csrf_token %} 
+	  <h2 class="form-signin-heading">Please sign in</h2>
+	  <p><input id="id_username" class='form-control' maxlength="254" name="username" type="text" placeholder='Username' autofocus/></p>
+	  <p><input id="id_password" class='form-control' name="password" type="password" placeholder='Password'/></p>
+	  <input type="submit" class="btn btn-lg btn-primary btn-block" value="{% trans 'Log in' %}" />
+	  <!-- <input type="hidden" name="next" value="{{ next }}" /> -->
+	  <input type="hidden" name="next" value="" />
+
+	  <br>
+	<p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
+	<p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+	</form>
+{% endblock %}
+ 

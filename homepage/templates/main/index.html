@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+	body {
+	  color: rgb(120, 120, 120);
+	}
+
+  form{
+    display: inline-block;
+  }
+
+  .maincolor{
+    color:rgb(79, 159, 207)
+  }
+
+  .blue-hover:hover{
+      color: blue;
+      cursor:pointer;
+  }
+  .green-hover:hover{
+      color: green;
+      cursor:pointer;
+  }
+  .red-hover:hover{
+      color: red;
+      cursor:pointer;
+  }
+
+  .choicesrow{
+    display: none;
+  }
+  .itemrow td a{
+    color:rgb(180,180,180);
+  }
+
+  .struck{
+    text-decoration: line-through;
+  }
+  .del-check{
+    line-height: 0;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 3px;
+    background: none;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %} 
+        <div class="page-header">
+
+          <div class='row'>
+            <div class='col-md-12'>
+
+              <div class='col-md-7'>
+              <h1 class='maincolor'>{%if user.is_authenticated%}{{request.user|capfirst}}{%endif%}</h1>
+              <h3 id='fulltime'></h3>
+              <ul class="nav nav-pills">
+                <li><a href="#">Manage Widgets</a></li>
+                <li><a href="/list">Lists</a></li>
+              </ul>
+              </div>
+
+              <div class='col-md-5' style='margin-top:20px'>
+                <blockquote>
+                  <p style='font-size:1.2em'>It is amazing how complete is the delusion that beauty is goodness</p>
+                  <small>Leo Tolstoy,  <cite title="Source Title">The Kreutzer Sonata</cite></small>
+                </blockquote>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
+        <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</p>
+
+        <div class='row'>
+          <div class='col-md-12'>
+              <div class='col-md-6'>
+                <ul class="list-group">
+                  <li class="list-group-item"><a href="http://reddit.com">Reddit</a></li>
+                  <li class="list-group-item"><a href="http://yahoo.finance.com">Finance</a></li>
+                  <li class="list-group-item"><a href="http://gmail.com">Gmail</a></li>
+                  <li class="list-group-item"><a href="http://nytimes.com">NyTimes</a></li>
+                </ul>
+              </div>
+              {% for l in lists%}
+               <div class='col-md-3'>
+                  <table class="table table-hover table-condensed">
+                    <thead>
+                      <tr class='itemrow'>
+                        <th><span class='glyphicon {{l.icon}}'></span> {{l.name}}</th>
+                        <th>
+                           <div class='choicesrow pull-right'>
+                                <form method='post'>{% csrf_token %}
+                                  <input type='hidden' value='{{l.id}}' name='id'> 
+                                  <button type='submit' name='deletelist' class='btn btn-xs red-hover del-check'><span class='glyphicon glyphicon-trash'></span></button>
+                                </form>   
+                            </div>
+                        </th>
+                      </tr>
+                    </thead> 
+                   <tbody>
+                      {% for i in items %}{% ifequal l.name i.listfk.name%}
+                      <tr class='itemrow'>
+                        {% if not i.complete%}
+                          {% if i.url %}<td><a href="{{i.url}}">{{i.text}}</A></td>
+                          {% else %}<td>{{i.text}}</td>{% endif %}
+                          <td>
+                            <div class='choicesrow pull-right'>
+                                <form method='post' >{% csrf_token %}
+                                  <input type='hidden' value='{{i.id}}' name='id'>  
+                                  <button type='submit' name='check' class='btn btn-xs green-hover del-check'><span class='glyphicon glyphicon-ok'></span></button>
+                                </form>
+                                <form method='post'>{% csrf_token %}
+                                  <input type='hidden' value='{{i.id}}' name='id'> 
+                                  <button type='submit' name='delete' class='btn btn-xs red-hover del-check'><span class='glyphicon glyphicon-trash'></span></button>
+                                </form>   
+                            </div>
+                          </td>
+                        {% else %}
+                          {% if i.url %}<td class='struck'><a href="{{i.url}}">{{i.text}}</a></td>
+                          {% else %}<td class='struck'>{{i.text}}</td>{% endif %}
+                          <td>
+                            <div class='choicesrow pull-right'>
+                                <form method='post' class='form-inline'>{% csrf_token %}
+                                  <input type='hidden' value='{{i.id}}' name='id'>  
+                                  <button type='submit' name='delete' class='btn btn-xs red-hover del-check'><span class='glyphicon glyphicon-trash'></span></button>
+                                </form>   
+                            </div>
+                          </td>  
+                        {% endif %}
+                      </tr>
+                       {% endifequal %}{% endfor %}
+                       <tr class='itemrow'>
+                          <td></td>
+                          <td style="height:30px">
+                            <div class='choicesrow pull-right'>
+                                <form method='post' >{% csrf_token %}
+                                  <input type='hidden' value='{{l.id}}' name='id'>  
+                                  <button type='submit' name='additem' class='btn btn-xs green-hover del-check'><span class='glyphicon glyphicon-plus'></span></button>
+                                </form>
+                            </div>
+                          </td>
+                       </tr>
+                    </tbody>
+                  </table>
+               </div>   
+             {% endfor %}
+          </div>
+        </div>
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+<script>
+
+function updateClock(){
+    var fulltime = moment().format('MMMM Do YYYY, h:mm a');
+    $('#fulltime').html(fulltime)
+}
+
+$(document).ready(function(){
+	updateClock()
+   setInterval('updateClock()', 10000);
+});
+
+$(function(){
+    $('.itemrow').mouseenter(function(){
+        $(this).find('.choicesrow').show();
+    });
+    $('.itemrow').mouseleave(function(){
+        $(this).find('.choicesrow').hide();
+    });
+});
+</script>
+
+{% endblock %}
