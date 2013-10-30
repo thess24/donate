@@ -48,6 +48,10 @@
     background: none;
   }
 
+  input[type='checkbox']{
+    margin-left:4px;
+  }
+
 </style>
 {% endblock %}
 
@@ -84,12 +88,10 @@
 
 
             <form method='post' class="form-inline" role="form">{% csrf_token %}
-            <div class="form-group">
-                  {{form.name}}
-              </div>
-              <div class="form-group">
-                  {{form.icon}}
-              </div>
+            <div class="form-group">{{form.name}}</div>
+              <div class="form-group">{{form.icon}}</div>
+              <label for='id_sticky'>Sticky?</label><div class="form-group">{{form.sticky}}</div>
+              <label for='id_secret'>Secret</label><div class="form-group">{{form.secret}}</div>
               <button type="submit" class="btn btn-default" name='add'>Add List</button>
             </form>
 

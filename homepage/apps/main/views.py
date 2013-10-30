@@ -5,6 +5,7 @@ from apps.main.models import ListForm, ItemForm
 import datetime
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 
 @login_required() 
 def index(request):
@@ -20,6 +21,7 @@ def index(request):
 				instance = form.save(commit=False)
 				instance.user = request.user
 				instance.save()
+				return HttpResponseRedirect(reverse('apps.main.views.index', args=()))
 
 		elif 'delete' in request.POST:
 			itemid = request.POST['id']

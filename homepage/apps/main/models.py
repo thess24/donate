@@ -28,28 +28,28 @@ class List(models.Model):
 		('glyphicon-usd', 'US Dollar'),
 		('glyphicon-trash', 'Trash'),
 		)
-	name = models.CharField(max_length=500)
+	name = models.CharField(max_length=140)
 	user = models.ForeignKey(User)
 	date = models.DateTimeField(auto_now_add=True)
-	icon = models.CharField(max_length=500, choices=ICON_LIST,blank=True)
-#  add color, styling options
-#  pinned, aka sticky
-#  secret or visible-password to view
+	icon = models.CharField(max_length=100, choices=ICON_LIST,blank=True)
+	sticky = models.BooleanField()
+	secret = models.BooleanField()
+
 	def __unicode__(self):
 		return self.name
 
 
 class Item(models.Model):
 	listfk = models.ForeignKey(List)
-	text = models.CharField(max_length=500)
+	title = models.CharField(max_length=140)
 	complete = models.BooleanField()
 	completed_time = models.DateTimeField(null=True, blank=True)
 	date = models.DateTimeField(auto_now_add=True)
 	url = models.URLField(blank=True, null=True)
+	text = models.CharField(max_length=1000, blank=True, null=True)
 
 	def __unicode__(self):
-		return self.text
-
+		return self.title
 
 
 

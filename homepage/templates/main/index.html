@@ -78,30 +78,43 @@
         </div>
         
           <form method='post' class="form-inline" role="form">{% csrf_token %}
-            <div class="form-group">
-                {{form.listfk}}
-            </div>
-            <div class="form-group">
-                {{form.text}}
-            </div>            
-            <div class="form-group">
-                {{form.url}}
-            </div>
+            <div class="form-group">{{form.listfk}}</div>
+            <div class="form-group">{{form.title}}</div>            
+            <div class="form-group">{{form.url}}</div>
+            <div class="form-group">{{form.text}}</div>
             <button type="submit" class="btn btn-default" name='additem'>Add Item</button>
           </form>
 <hr>
         <div class='row'>
           <div class='col-md-12'>
               <div class='col-md-6'>
-                <ul class="list-group">
-                  <li class="list-group-item"><a href="http://reddit.com">Reddit</a></li>
-                  <li class="list-group-item"><a href="http://yahoo.finance.com">Finance</a></li>
-                  <li class="list-group-item"><a href="http://gmail.com">Gmail</a></li>
-                  <li class="list-group-item"><a href="http://nytimes.com">NyTimes</a></li>
-                </ul>
+                  <table class="table table-hover table-condensed">
+                    <thead>
+                      <tr>
+                        <th>Top Sites</th>
+                        <th></th>
+                      </tr>
+                    </thead> 
+                    <tbody>
+                      <tr><td><a href="http://reddit.com/r/python">Reddit - Python</a></td><td><a href="http://facebook.com">Facebook</a></td></tr>
+                        <tr><td><a href="http://yahoo.finance.com">Yahoo Finance</a></td><td><a href="http://twitter.com">Twitter</a></td></tr>
+                        <tr><td><a href="http://gmail.com">Gmail</a></td><td><a href="http://reddit.com/Django">Reddit - Django</a></td></tr>
+                        <tr><td><a href="http://nytimes.com">NyTimes</a></td><td><a href="http://games.espn.go.com/frontpage/basketball">Fantasy Basketball</a></td></tr>
+                    </tbody>
+                  </table>
               </div>
+              <div class='col-md-6'>
+
+              </div>
+            </div>
+          </div>
+
+        <div class='row'>
+          <div class='col-md-12'>
+              <div id='masonjar'>
               {% for l in lists%}
-               <div class='col-md-3'>
+               <!-- <div class='col-md-3'> -->
+               <div class='masonitem'>
                   <table class="table table-hover table-condensed">
                     <thead>
                       <tr class='itemrow'>
@@ -120,8 +133,8 @@
                       {% for i in items %}{% ifequal l.name i.listfk.name%}
                       <tr class='itemrow'>
                         {% if not i.complete%}
-                          {% if i.url %}<td><a href="{{i.url}}">{{i.text}}</A></td>
-                          {% else %}<td>{{i.text}}</td>{% endif %}
+                          {% if i.url %}<td><a href="{{i.url}}">{{i.title}}</A></td>
+                          {% else %}<td>{{i.title}}</td>{% endif %}
                           <td>
                             <div class='choicesrow pull-right'>
                                 <form method='post' >{% csrf_token %}
@@ -135,8 +148,8 @@
                             </div>
                           </td>
                         {% else %}
-                          {% if i.url %}<td class='struck'><a href="{{i.url}}">{{i.text}}</a></td>
-                          {% else %}<td class='struck'>{{i.text}}</td>{% endif %}
+                          {% if i.url %}<td class='struck'><a href="{{i.url}}">{{i.title}}</a></td>
+                          {% else %}<td class='struck'>{{i.title}}</td>{% endif %}
                           <td>
                             <div class='choicesrow pull-right'>
                                 <form method='post' class='form-inline'>{% csrf_token %}
@@ -163,6 +176,7 @@
                   </table>
                </div>   
              {% endfor %}
+           </div> <!--end of mason jar container-->
           </div>
         </div>
 {% endblock %}
@@ -197,9 +211,25 @@ $(function(){
     $('#id_listfk').addClass('form-control');
     $('#id_url').addClass('form-control').attr('placeholder', "Link");
     $('#id_text').addClass('form-control').attr('placeholder', "Text");
+    $('#id_title').addClass('form-control').attr('placeholder', "Item");
+});
+
+$(function(){
+  var $container = $('#masonjar');
+  // initialize
+  $container.masonry({
+    columnWidth: 285,
+    itemSelector: '.masonitem'
+  });
+
+  $('.masonitem').css('width', '270');
+
 });
 
 
 </script>
 
 {% endblock %}
+
+
+
