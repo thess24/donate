@@ -58,11 +58,11 @@
             <div class='col-md-12'>
 
               <div class='col-md-7'>
-              <h1 class='maincolor'>{%if user.is_authenticated%}{{request.user|capfirst}}{%endif%}</h1>
+              <h1 class='maincolor' id='mainheader'>{%if user.is_authenticated%}{{request.user|capfirst}}{%endif%}</h1>
               <h3 id='fulltime'></h3>
               <ul class="nav nav-pills">
                 <li><a href="#">Manage Widgets</a></li>
-                <li><a href="/list">Lists</a></li>
+                <li id='listlink'><a href="/list">Lists</a></li>
               </ul>
               </div>
 
@@ -77,12 +77,12 @@
           </div>
         </div>
         
-          <form method='post' class="form-inline" role="form">{% csrf_token %}
+          <form method='post' class="form-inline" role="form" >{% csrf_token %}
             <div class="form-group">{{form.listfk}}</div>
             <div class="form-group">{{form.title}}</div>            
             <div class="form-group">{{form.url}}</div>
             <div class="form-group">{{form.text}}</div>
-            <button type="submit" class="btn btn-default" name='additem'>Add Item</button>
+            <button type="submit" class="btn btn-default" name='additem' id='additem'>Add Item</button>
           </form>
 <hr>
         <div class='row'>
@@ -226,6 +226,41 @@ $(function(){
 
 });
 
+</script>
+
+
+<script type="text/javascript">
+
+if($(".masonitem").length == 0) {
+    var tour = {
+      id: "hello-hopscotch",
+      steps: [
+        {
+          title: "Welcome",
+          content: "Welcome to SimpleHomepage.",
+          target: "mainheader",
+          placement: "right"
+        },
+        {
+          title: "Add Item",
+          content: "Once you create a list, add an item here",
+          target: 'additem',
+          placement: "top"
+        },
+        {
+          title: "Add List",
+          content: "Click here to go the the page to create a list",
+          target: 'listlink',
+          placement: "right",
+          yOffset: -10
+
+        }
+      ]
+    };
+
+    // Start the tour!
+    hopscotch.startTour(tour);
+};
 
 </script>
 

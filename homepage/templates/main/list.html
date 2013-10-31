@@ -91,8 +91,8 @@
             <div class="form-group">{{form.name}}</div>
               <div class="form-group">{{form.icon}}</div>
               <label for='id_sticky'>Sticky?</label><div class="form-group">{{form.sticky}}</div>
-              <label for='id_secret'>Secret</label><div class="form-group">{{form.secret}}</div>
-              <button type="submit" class="btn btn-default" name='add'>Add List</button>
+              <label for='id_secret'>Hidden</label><div class="form-group">{{form.secret}}</div>
+              <button type="submit" class="btn btn-default" name='add' id='addlist'>Add List</button>
             </form>
 
             <hr>
@@ -197,7 +197,45 @@ $(function(){
 });
 
 </script>
+ 
 
+ <script type="text/javascript">
+
+if($(".masonitem").length == 0) {
+    var tour = {
+      id: "hello-hopscotch",
+      steps: [
+        {
+          title: "Add List",
+          content: "Add your first list here.",
+          target: "addlist",
+          placement: "right",
+          yOffset: -15
+
+        },
+        {
+          title: "Sticky",
+          content: "Sticky items will appear on top",
+          target: 'id_sticky',
+          placement: "top",
+          xOffset: -30
+        },
+        {
+          title: "Hidden",
+          content: "Hidden items will appear on the list page, but won't take up space on the front page",
+          target: 'id_secret',
+          placement: "bottom",
+          xOffset: -15
+
+        }
+      ]
+    };
+
+    // Start the tour!
+    hopscotch.startTour(tour);
+};
+
+</script>
 {% endblock %}
 
 
