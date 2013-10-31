@@ -51,6 +51,14 @@ class Item(models.Model):
 	def __unicode__(self):
 		return self.title
 
+class Topsite(models.Model):
+	name = models.CharField(max_length=140)
+	user = models.ForeignKey(User)
+	url = models.URLField()
+	description = models.CharField(max_length=1000, blank=True, null=True)
+
+	def __unicode__(self):
+		return self.name
 
 
 ##########    FORMS   ############
@@ -62,8 +70,12 @@ class ListForm(ModelForm):
 		model = List
 		exclude = ['user', 'date']
 
-
 class ItemForm(ModelForm):
 	class Meta:
 		model = Item
 		exclude = ['date', 'complete', 'completed_time']
+
+class TopsiteForm(ModelForm):
+	class Meta:
+		model = Topsite
+		exclude = ['user']

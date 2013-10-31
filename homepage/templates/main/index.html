@@ -61,8 +61,8 @@
               <h1 class='maincolor' id='mainheader'>{%if user.is_authenticated%}{{request.user|capfirst}}{%endif%}</h1>
               <h3 id='fulltime'></h3>
               <ul class="nav nav-pills">
-                <li><a href="#">Manage Widgets</a></li>
                 <li id='listlink'><a href="/list">Lists</a></li>
+                <li id='widgetlink'><a href="/managewidgets">Manage Widgets</a></li>
               </ul>
               </div>
 
@@ -90,16 +90,12 @@
               <div class='col-md-6'>
                   <table class="table table-hover table-condensed">
                     <thead>
-                      <tr>
+                      <tr id='topsites'>
                         <th>Top Sites</th>
-                        <th></th>
                       </tr>
                     </thead> 
                     <tbody>
-                      <tr><td><a href="http://reddit.com/r/python">Reddit - Python</a></td><td><a href="http://facebook.com">Facebook</a></td></tr>
-                        <tr><td><a href="http://yahoo.finance.com">Yahoo Finance</a></td><td><a href="http://twitter.com">Twitter</a></td></tr>
-                        <tr><td><a href="http://gmail.com">Gmail</a></td><td><a href="http://reddit.com/Django">Reddit - Django</a></td></tr>
-                        <tr><td><a href="http://nytimes.com">NyTimes</a></td><td><a href="http://games.espn.go.com/frontpage/basketball">Fantasy Basketball</a></td></tr>
+                      {% for site in topsites %}<tr><td><a href="{{site.url}}">{{site.name}}</a> - {{site.description}}</td></tr>{% endfor %}
                     </tbody>
                   </table>
               </div>
@@ -113,7 +109,6 @@
           <div class='col-md-12'>
               <div id='masonjar'>
               {% for l in lists%}
-               <!-- <div class='col-md-3'> -->
                <div class='masonitem'>
                   <table class="table table-hover table-condensed">
                     <thead>
@@ -253,8 +248,19 @@ if($(".masonitem").length == 0) {
           target: 'listlink',
           placement: "right",
           yOffset: -10
-
-        }
+        },
+        {
+          title: "Top Sites",
+          content: "You can add frequently visited sites... ",
+          target: 'topsites',
+          placement: "right",
+        },
+        {
+          title: "Add Top Sites",
+          content: "By going to manage widgets",
+          target: 'widgetlink',
+          placement: "bottom",
+        },        
       ]
     };
 

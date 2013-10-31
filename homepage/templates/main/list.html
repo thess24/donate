@@ -66,8 +66,8 @@
               <h1 class='maincolor'>{%if user.is_authenticated%}{{request.user|capfirst}}{%endif%}</h1>
               <h3 id='fulltime'></h3>
               <ul class="nav nav-pills">
-                <li><a href="#">Manage Widgets</a></li>
                 <li><a href="/">Homepage</a></li>
+                <li><a href="/managewidgets">Manage Widgets</a></li>
               </ul>
               </div>
 
@@ -81,8 +81,7 @@
             </div>
           </div>
         </div>
-
-
+        
         <div class='row'>
           <div class='col-md-12'>
 
@@ -201,7 +200,7 @@ $(function(){
 
  <script type="text/javascript">
 
-if($(".masonitem").length == 0) {
+if($(".panel").length == 0) {
     var tour = {
       id: "hello-hopscotch",
       steps: [

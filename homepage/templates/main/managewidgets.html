@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+	body {
+	  color: rgb(120, 120, 120);
+	}
+
+  form{
+    display: inline-block;
+  }
+
+  .maincolor{
+    color:rgb(79, 159, 207)
+  }
+
+  .blue-hover:hover{
+      color: blue;
+      cursor:pointer;
+  }
+  .green-hover:hover{
+      color: green;
+      cursor:pointer;
+  }
+  .red-hover:hover{
+      color: red;
+      cursor:pointer;
+  }
+
+  .choicesrow{
+    display: none;
+  }
+  .itemrow td a{
+    color:rgb(180,180,180);
+  }
+
+  .struck{
+    text-decoration: line-through;
+  }
+  .del-check{
+    line-height: 0;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 3px;
+    background: none;
+  }
+
+  input[type='checkbox']{
+    margin-left:4px;
+  }
+
+</style>
+{% endblock %}
+
+
+{% block content %} 
+        <div class="page-header">
+
+          <div class='row'>
+            <div class='col-md-12'>
+
+              <div class='col-md-7'>
+              <h1 class='maincolor'>{%if user.is_authenticated%}{{request.user|capfirst}}{%endif%}</h1>
+              <h3 id='fulltime'></h3>
+              <ul class="nav nav-pills">
+                <li><a href="/">Homepage</a></li>
+                <li><a href="/list">Lists</a></li>
+              </ul>
+              </div>
+
+              <div class='col-md-5' style='margin-top:20px'>
+                <blockquote>
+                  <p style='font-size:1.2em'>It is amazing how complete is the delusion that beauty is goodness</p>
+                  <small>Leo Tolstoy,  <cite title="Source Title">The Kreutzer Sonata</cite></small>
+                </blockquote>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class='row'>
+          <div class='col-md-12'>
+
+            <h4>Top Sites</h4>
+            <form method='post' class="form-inline" role="form">{% csrf_token %}
+            <div class="form-group">{{form.name}}</div>
+              <div class="form-group">{{form.url}}</div>
+              <div class="form-group">{{form.description}}</div>
+              <button type="submit" class="btn btn-default" name='addsite' id='addsite'>Add Site</button>
+            </form>
+            <br>
+            <br>
+
+            <ul>
+            {% for site in topsites %}
+            <li>
+              <a href='{{site.url}}'>{{site.name}}</a> - {{site.description}}
+              <form method='post' >{% csrf_token %}
+                  <input type='hidden' value='{{site.id}}' name='id'>  
+                  <button type='submit' name='deletesite' class='btn btn-xs red-hover del-check'><span class='glyphicon glyphicon-trash'></span></button>
+              </form>
+            </li>{% endfor %}
+            </ul>
+
+
+            <hr>
+
+          </div>
+        </div>
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+<script>
+
+function updateClock(){
+    var fulltime = moment().format('MMMM Do YYYY, h:mm a');
+    $('#fulltime').html(fulltime)
+}
+
+$(document).ready(function(){
+	updateClock()
+   setInterval('updateClock()', 10000);
+});
+
+$(function(){
+    $('.itemrow').mouseenter(function(){
+        $(this).find('.choicesrow').show();
+    });
+    $('.itemrow').mouseleave(function(){
+        $(this).find('.choicesrow').hide();
+    });
+});
+
+$(function(){
+    $('#id_name').addClass('form-control').attr('placeholder', "Name");
+    $('#id_url').addClass('form-control').attr('placeholder', "Url");
+    $('#id_description').addClass('form-control').attr('placeholder', "Description");
+});
+
+</script>
+ 
+
+ <script type="text/javascript">
+
+if($(".panel").length == 0) {
+    var tour = {
+      id: "hello-hopscotch",
+      steps: [
+        {
+          title: "Add List",
+          content: "Add your first list here.",
+          target: "addlist",
+          placement: "right",
+          yOffset: -15
+
+        },
+        {
+          title: "Sticky",
+          content: "Sticky items will appear on top",
+          target: 'id_sticky',
+          placement: "top",
+          xOffset: -30
+        },
+        {
+          title: "Hidden",
+          content: "Hidden items will appear on the list page, but won't take up space on the front page",
+          target: 'id_secret',
+          placement: "bottom",
+          xOffset: -15
+
+        }
+      ]
+    };
+
+    // Start the tour!
+    hopscotch.startTour(tour);
+};
+
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+              
+
+             
