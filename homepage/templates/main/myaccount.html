@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+
+{% endblock %}
+ 
+
+{% block crumbs %}
+<h1 class="pull-left">My account</h1>
+{% endblock %}
+
+
+{% block content %}
+        
+        <div class='row'>
+            <div class='col-md-9'>
+
+                  <a href="{% url 'tickets' %}" class='btn btn-primary btn-lg'>Buy Tickets!</a>
+
+
+
+            </div>
+	        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+	          <div class="list-group">
+	            <a href="#" class="list-group-item">Change Password</a>
+	            <a href="#" class="list-group-item">Link</a>
+	            <a href="#" class="list-group-item">Link</a>
+	            <a href="#" class="list-group-item">Link</a>
+	          </div>
+	        </div><!--/span-->
+        </div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+
+{% endblock %}
+
+
+

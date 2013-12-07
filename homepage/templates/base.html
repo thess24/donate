@@ -1,83 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
+<head>
+
+    <title>{% block title %} Simple Homepage {% endblock %}</title>
+
+    <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title %} Simple Homepage {% endblock %}</title>
-    <!-- Bootstrap core CSS -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}css/flipclock.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{{STATIC_URL}}css/hopscotch-0.1.2.min.css" rel="stylesheet">
-		{% block head %}{% endblock %}
-    <style type="text/css">
-          /* Sticky footer styles
-      -------------------------------------------------- */
-      html,
-      body {
-        height: 100%;
-        /* The html and body elements cannot have any padding or margin. */
-      }
+    <!-- CSS Global Compulsory-->
+    <link rel="stylesheet" href="{{STATIC_URL}}css/style.css">
+    <link rel="stylesheet" href="{{STATIC_URL}}css/headers/header1.css">
+    <link rel="stylesheet" href="{{STATIC_URL}}css/responsive.css">
+    <!-- CSS Theme -->    
+    <link rel="stylesheet" href="{{STATIC_URL}}css/themes/default.css" id="style_color">
 
-      /* Wrapper for page content to push down footer */
-      #wrap {
-        min-height: 100%;
-        height: auto !important;
-        height: 100%;
-        /* Negative indent footer by its height */
-        margin: 0 auto -60px;
-        /* Pad bottom by footer height */
-        padding: 0 0 60px;
-      }
+<style type="text/css">
 
-      /* Set the fixed height of the footer here */
-      #footer {
-        height: 60px;
-        background-color: #f5f5f5;
-      }
-      /* Custom page CSS
-      -------------------------------------------------- */
-      /* Not required for template or sticky footer method. */
+#maincont{ 
+    min-height: 600px;
+}
 
-      .container {
-        width: auto;
-        padding: 0 15px;
-      }
-      .container .credit {
-        margin: 20px 0;
-}</style>
-  </head>
+.badge-green{
+    background-color: #2ecc71;
+}
+</style>
+  {% block head %}{% endblock %}
 
-  <body>
+ 
 
-    <!-- Wrap all page content here -->
-    <div id="wrap">
-      <div class="container">
-		{% block content %}{% endblock %}
-      </div>
+</head> 
+
+<body>
+
+
+<!--=== Top ===-->    
+<div class="top">
+    <div class="container">         
+        <ul class="loginbar pull-right">
+        {% if user.is_authenticated%}
+            <li><a href="{% url 'myaccount' %}">{{user.username}}</a></li> | 
+            <li><a href="/accounts/logout">Logout</a></li>
+        {% else %}  
+            <li><a href="/accounts/login">Login</a></li>
+        {% endif %}      
+        </ul>
+    </div>      
+</div><!--/top-->
+<!--=== End Top ===-->    
+
+<!--=== Header ===-->    
+<div class="header">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <!-- <img id="logo-header" src="assets/img/logo1-default.png" alt="Logo"> -->
+                    Raffle
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                
+            <li><a href="{% url 'currentraffles' %}">Current Raffles</a></li>
+            <li><a href="{% url 'tickets' %}">Get Tickets!</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'createraffle' %}">Create Raffle</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-film"> </span>  Tickets <span class="badge badge-green">{{extuser.tickets}}</span></a></li>
+            {% else %}
+            <li><a href="/accounts/register">Sign Up for Free</a></li>
+            {% endif %}
+            
+                </ul>              
+            </div><!-- /navbar-collapse -->
+        </div>    
+    </div>    
+</div><!--/header-->
+<!--=== End Header ===-->    
+
+<!--=== Breadcrumbs ===-->
+<div class="breadcrumbs margin-bottom-40">
+    <div class="container">
+        {% block crumbs %}
+        {% endblock %}
     </div>
+</div><!--/breadcrumbs-->
+<!--=== End Breadcrumbs ===-->
 
-    <div id="footer">
-      <div class="container">
-        <p class="text-muted credit">A Simple Homepage by Taylor Hess</p>
-      </div>
-    </div>
+<!--=== Content Part ===-->
+<div class="container" id='maincont'>
+
+    <div class="row">
+        <!--Begin Sidebar Menu-->
+        <div class="col-md-12">            
+         {% block content %}{% endblock %}
+        </div>
+        <!--End Content-->
+    </div>        
+</div><!--/container-->   
+<!--=== End Content Part ===-->
+
+<!--=== Footer ===-->
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 md-margin-bottom-40">
+                <!-- About -->
+                <div class="headline"><h2>About</h2></div>  
+                <p class="margin-bottom-25 md-margin-bottom-40"> is a site to help people support great local charities with chances to win big prizes.  Everyone wins!</p>    
+                       
+            </div><!--/col-md-4-->  
+            
+            <div class="col-md-4 md-margin-bottom-40">
+                <div class="headline"><h2>Monthly Newsletter</h2></div> 
+                <p>Subscribe to our newsletter to recieve weekly emails to support great charities and get a chance to win big!</p>
+                <form class="footer-subsribe">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Email Address">                            
+                        <span class="input-group-btn">
+                            <button class="btn-u" type="button">Subscribe</button>
+                        </span>
+                    </div><!-- /input-group -->                    
+                </form>  
+            </div><!--/col-md-4-->
+
+            <div class="col-md-4">
+                <!-- Monthly Newsletter -->
+                <div class="headline"><h2>Contact Us</h2></div> 
+                <address class="md-margin-bottom-40">
+                    Chicago, IL <br />
+                    Email: <a href="mailto:info@anybiz.com" class="">info@anybiz.com</a>
+                </address>
+
+            </div><!--/col-md-4-->
+        </div><!--/row-->   
+    </div><!--/container--> 
+</div><!--/footer-->    
+<!--=== End Footer ===-->
+
+<!--=== Copyright ===-->
+<div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">                      
+                <p class="copyright-space">
+                    2013 &copy; . ALL Rights Reserved. 
+                    <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+                </p>
+            </div>
+        </div><!--/row-->
+    </div><!--/container--> 
+</div><!--/copyright--> 
+<!--=== End Copyright ===-->
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+<!-- BOOTSTRAP and JQUERY -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script type="text/javascript" src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js'></script>
-<script type="text/javascript" src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js'></script>
-<script type="text/javascript" src='//cdnjs.cloudflare.com/ajax/libs/masonry/3.1.1/masonry.pkgd.min.js'></script>
 
-<script src="https://raw.github.com/linkedin/hopscotch/master/js/hopscotch-0.1.2.min.js" type="text/javascript"></script>
+<!-- FLOT -->
+<link href="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.1/jquery.flot.min.js" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.1/jquery.flot.stack.min.js" rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.1/jquery.flot.resize.min.js" rel="stylesheet">
 
-{% block scripts %}{% endblock %}
-  </body>
-</html>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/flot/0.8.1/excanvas.min.js"></script><![endif]-->
+
+    {% block scripts %}{% endblock %}
+
+
+<!-- JS Global Compulsory -->           
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>
+
+<!--[if lt IE 9]>
+    <script src="assets/plugins/respond.js"></script>
+<![endif]-->
+
+</body>
+</html> 

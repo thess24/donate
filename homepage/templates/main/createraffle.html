@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+
+{% endblock %}
+ 
+
+{% block crumbs %}
+<h1 class="pull-left">Create Your Raffle!</h1>
+{% endblock %}
+
+
+{% block content %} {% load crispy_forms_tags %}
+        
+        <div class='row'>
+            <div class='col-md-12'>
+
+                  {% crispy form %}
+
+                </form>
+
+            </div>
+        </div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+
+{% endblock %}
+
+
+

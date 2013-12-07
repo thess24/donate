@@ -4,8 +4,11 @@
 from datetime import timedelta
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+from os import environ
 
 from djcelery import setup_loader
+
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 
 ########## PATH CONFIGURATION
@@ -112,7 +115,7 @@ STATICFILES_FINDERS = (
 
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = r"*od0+*0av*25&-wv&@vskhegrt#e6t+ie(^u4yh#*&&c9tsogi"
+SECRET_KEY = r"*od0+*0av*256453wv&@vskhegrt#e6t+ie*94yh#*gsdfgc9tsogi"
 ########## END SECRET CONFIGURATION
 
 
@@ -129,7 +132,7 @@ FIXTURE_DIRS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
+    'django.core.context_processors.i18n', 
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
@@ -148,6 +151,12 @@ TEMPLATE_DIRS = (
     normpath(join(DJANGO_ROOT, 'templates')),
 )
 ########## END TEMPLATE CONFIGURATION
+
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'apps.main.context_processors.systemstarterkit', #lists all twitteraccts
+    # "payments.context_processors.payments_settings", #for stripe payments
+    )
+
 
 
 ########## MIDDLEWARE CONFIGURATION
@@ -202,6 +211,12 @@ THIRD_PARTY_APPS = (
     'djcelery',
 
     'registration',
+
+    'localflavor',
+
+    'crispy_forms',
+
+
 )
 
 LOCAL_APPS = (
@@ -285,3 +300,7 @@ COMPRESS_JS_FILTERS = [
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = "/"
 
+
+########## CRISPY FORMS 
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

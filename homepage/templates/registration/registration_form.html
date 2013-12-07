@@ -2,10 +2,48 @@
 {% load i18n %}
 
 {% block content %}
-<form method="post" action=".">
-  {% csrf_token %}
-  {{ form.as_p }}
 
-  <input type="submit" value="{% trans 'Submit' %}" />
-</form>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <form class="reg-page" method='post'>
+                <div class="reg-header">
+                    <h2>Register a new account (in 10 seconds!)</h2>
+                    <p>Already Signed Up? Click <a href="/accounts/login" class="color-green">Sign In</a> to login your account.</p>                    
+                </div>
+
+                <label>Username</label>
+                <input id="id_username" class="form-control margin-bottom-20" maxlength="30" name="username" type="text" />
+               
+                <label>Email Address <span class="color-red">*</span></label>
+                <input type="text" class="form-control margin-bottom-20" id="id_email" name="email">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Password <span class="color-red">*</span></label>
+                        <input class="form-control margin-bottom-20" id="id_password1" name="password1" type="password">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Confirm Password <span class="color-red">*</span></label>
+                        <input class="form-control margin-bottom-20" id="id_password2" name="password2" type="password">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label class="checkbox">
+                            <input type="checkbox"> 
+                            I read <a href="page_terms.html" class="color-green">Terms and Conditions</a>
+                        </label>                        
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <button class="btn-u" type="submit">{% trans 'Submit' %}</button>                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 {% endblock %}

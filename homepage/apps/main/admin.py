@@ -1,7 +1,15 @@
 from django.contrib import admin
-from apps.main.models import List, Item, Topsite
+from apps.main.models import Sponsor, Charity, Raffle, Entry, CharityImage, RaffleLevel,UserExtend
 
 
-admin.site.register(List)
-admin.site.register(Item)
-admin.site.register(Topsite)
+class RaffleAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+admin.site.register(Sponsor)
+admin.site.register(Charity)
+admin.site.register(Raffle, RaffleAdmin)
+admin.site.register(Entry)
+admin.site.register(CharityImage)
+admin.site.register(RaffleLevel)
+admin.site.register(UserExtend)
+ 

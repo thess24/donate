@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+.clock{
+zoom: 0.55;
+-moz-transform: scale(0.55)
+}
+
+
+.greenlink{
+  text-decoration: underline;
+  color: #72c02c;
+}
+</style>
+{% endblock %}
+ 
+{% block crumbs %}
+<h1 class="pull-left">{{raffle.title}}</h1>
+{% endblock %}
+
+
+{% block content %} 
+        
+        <div class='row'>
+
+            {% if entries %}
+            <div class='col-md-12'>
+              <div class="alert alert-success">
+                <h4>You donated ${{entries.count__sum}} to this cause and have <b>{{entries.count__sum}}</b> chances to win!</h4>
+              </div>
+            </div>
+            {% endif %}
+
+              <div class='col-md-8'>
+
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <img src="{{MEDIA_URL}}{{raffle.image}}">
+                    {{raffle.gendesc}}
+                  </div>
+                </div>
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">{{raffle.charity}}</h3>
+                  </div>
+                  <div class="panel-body">
+                    {{raffle.charitydesc}}
+                  </div>
+                </div>
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">{{raffle.sponsor}}</h3>
+                  </div>
+                  <div class="panel-body">
+                    {{raffle.sponsordesc}}
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div class='col-md-4'>
+
+                <div class='clock'></div><br>
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Panel title</h3>
+                  </div>
+                  <div class="panel-body">
+                    {% if user.is_authenticated %}
+                    <form method='post'>{% csrf_token %}{{form.count.errors}}
+                      <input id='id_count' class='form-control fc-mod' name='count' type='text' style='width:75px; display:inline-block'>
+                    <button type="submit" class="btn btn-primary" name='addentry'>Enter Raffle Now!</button>
+                    </form>
+                    {% else %}
+                    <input class='form-control fc-mod' name='count' type='text' style='width:75px; display:inline-block' disabled>
+                    <a href='/accounts/register' class="btn btn-primary" >Enter Raffle Now!</a>
+                    <br>
+                    <br>
+                    <div><a href='/accounts/register' class='greenlink'>Register</a> in 10 seconds to get started!</div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">How Your Money Helps</h3>
+                  </div>
+                  <div class="panel-body">
+                    {% for l in levels%}
+                    <h3>${{l.price}}</h3>
+                      <img src="..{{l.image.url}}">
+                      <div>{{l.description}}</div>
+                      <br>
+                    {% endfor %}
+                  </div>
+                </div>
+
+            </div>
+          </div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+<!-- FLIPCLOCK -->
+<script type="text/javascript" src='{{STATIC_URL}}js/flipclock/flipclock.min.js'></script>
+
+<script>
+      // var clock;
+
+      // $(document).ready(function() {
+
+      //   // Grab the current date
+      //   var currentDate = new Date();
+
+      //   // Set some date in the future. In this case, it's always Jan 1
+      //   var futureDate  = new Date(currentDate.getFullYear() + 1, 0, 1);
+
+      //   // Calculate the difference in seconds between the future and current date
+      //   var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
+
+      //   // Instantiate a coutdown FlipClock
+      //   clock = $('.clock').FlipClock(diff, {
+      //     clockFace: 'DailyCounter',
+      //     countdown: true
+      //   });
+      // });
+
+</script>
+
+
+<script>
+
+$(document).ready(function(){
+
+$( "#id_count" ).spinner().numeric(); 
+
+});
+</script>
+
+
+{% endblock %}
+
+
+
