@@ -20,20 +20,38 @@ urlpatterns = patterns('',
 
 
 
+# make newsletter work --mailchimp
 
+# autopayment system for putting raffles online
+
+# change raffle listing based on status (sponsored, recently expired, new, etc)
+    # new, recently expired as methods on classes
+
+# update user value on token buy, token use
+
+# update entry value on token use
+
+# figure out aggregated sum to give to charities, add in how much a users vote is worth
+
+# user has to fill in info before progressing
+
+# ability to make charity account, sponsor account
+
+# currentraffles filter on state, hosted/non, enddate, startdate
+
+# way to have links to raffle site in addition to hosted raffles
+
+# make way to stop raffle and pick winner
+
+# small raffle pics in scroller
 
 # user maintaninence
 
-# fix entries count on raffle page
-
 # make contact page
-
-# show raffle when its time, remove shortly after expired
-
-# fix submission with no tickets
 
 # ability to list or host raffle
 
 	# list - $5 per day
 	# host- $10 per day
-	# featured- add $10 per day
+	# featured- add $50 per day
+    # sponsored- add $5 per day

@@ -14,6 +14,22 @@ zoom: 0.55;
   text-decoration: underline;
   color: #72c02c;
 }
+
+
+#mainpic img { 
+    width: auto !important; 
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#sidepic img { 
+    width: auto !important; 
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
 </style>
 {% endblock %}
  
@@ -26,7 +42,7 @@ zoom: 0.55;
         
         <div class='row'>
 
-            {% if entries %}
+            {% if entries.count__sum %}
             <div class='col-md-12'>
               <div class="alert alert-success">
                 <h4>You donated ${{entries.count__sum}} to this cause and have <b>{{entries.count__sum}}</b> chances to win!</h4>
@@ -38,7 +54,7 @@ zoom: 0.55;
 
                 <div class="panel panel-default">
                   <div class="panel-body">
-                    <img src="{{MEDIA_URL}}{{raffle.image}}">
+                    <div id='mainpic'><img src="{{MEDIA_URL}}{{raffle.image}}" ></div>
                     {{raffle.gendesc}}
                   </div>
                 </div>
@@ -70,7 +86,7 @@ zoom: 0.55;
 
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
+                    <h3 class="panel-title">Enter Now!</h3>
                   </div>
                   <div class="panel-body">
                     {% if user.is_authenticated %}
@@ -92,7 +108,7 @@ zoom: 0.55;
                   <div class="panel-heading">
                     <h3 class="panel-title">How Your Money Helps</h3>
                   </div>
-                  <div class="panel-body">
+                  <div class="panel-body" id='sidepic'>
                     {% for l in levels%}
                     <h3>${{l.price}}</h3>
                       <img src="..{{l.image.url}}">
@@ -118,25 +134,27 @@ zoom: 0.55;
 <script type="text/javascript" src='{{STATIC_URL}}js/flipclock/flipclock.min.js'></script>
 
 <script>
-      // var clock;
+      var clock;
 
-      // $(document).ready(function() {
+      $(document).ready(function() {
 
-      //   // Grab the current date
-      //   var currentDate = new Date();
+        // alert(new Date({{raffle.expiretime.year}},{{raffle.expiretime.month}}-1,{{raffle.expiretime.day}},{{raffle.expiretime.minute}}))
+        // Grab the current date
+        var currentDate = new Date();
 
-      //   // Set some date in the future. In this case, it's always Jan 1
-      //   var futureDate  = new Date(currentDate.getFullYear() + 1, 0, 1);
+        // Set some date in the future. In this case, it's always Jan 1
+        // var futureDate  = new Date(currentDate.getFullYear() + 1, 0, 1);
+        var futureDate  = new Date({{raffle.expiretime.year}},{{raffle.expiretime.month}}-1,{{raffle.expiretime.day}},{{raffle.expiretime.minute}});
 
-      //   // Calculate the difference in seconds between the future and current date
-      //   var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
+        // Calculate the difference in seconds between the future and current date
+        var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
 
-      //   // Instantiate a coutdown FlipClock
-      //   clock = $('.clock').FlipClock(diff, {
-      //     clockFace: 'DailyCounter',
-      //     countdown: true
-      //   });
-      // });
+        // Instantiate a coutdown FlipClock
+        clock = $('.clock').FlipClock(diff, {
+          clockFace: 'DailyCounter',
+          countdown: true
+        });
+      });
 
 </script>
 

@@ -12,7 +12,7 @@
 </style>
 
 {% endblock %}
- 
+  
 
 {% block crumbs %}
 <h1 class="pull-left">Current Raffles!</h1>
@@ -30,18 +30,15 @@
                     <img src="{{MEDIA_URL}}{{r.image}}" height="70" class='pull-left'>
                   </div>
                   <div class='itembox'>
-                    <h4><a href="{% url 'raffle' r.slug %}">{{r.title}}</a></h4>
+                    <h4><a href="{% url 'raffle' r.slug %}">{{r.shortdesc}}</a></h4>
                     <span>{{r.charity.name}} |  </span><span>{{r.sponsor.name}} | </span><span>{{r.expiretime}}</span>
                   </div>
                   <!-- </div> -->
                 </div>
                 {% endfor %}
  
-
               </div>
-
           </div>
-
 
 {% endblock %}
 

@@ -10,7 +10,8 @@ from crispy_forms.bootstrap import StrictButton, PrependedText
 
 class UserExtend(models.Model):
 	user = models.OneToOneField(User)
-	tickets = models.IntegerField()
+	tickets = models.IntegerField(default=0)
+	value = models.DecimalField(max_digits=9, decimal_places=2)
 	state = USStateField()
 
 	def __unicode__(self):
@@ -20,7 +21,6 @@ class UserExtend(models.Model):
 class Sponsor(models.Model):
 	name = models.CharField(max_length=140)
 	image = models.ImageField(upload_to='sponsor')
-	thumb = models.ImageField(upload_to='sponsorthumb')
 	url = models.URLField()
 
 	def __unicode__(self):
@@ -52,16 +52,21 @@ class Raffle(models.Model):
 	expiretime = models.DateTimeField()
 	active = models.BooleanField()
 	slug = models.SlugField()
-	charity = models.ForeignKey(Charity)
-	sponsor = models.ForeignKey(Sponsor)
+	charity = models.ForeignKey(Charity, blank=True, null=True)
+	sponsor = models.ForeignKey(Sponsor, blank=True, null=True)
 	charitydesc = models.TextField()
-	sponsordesc = models.TextField()
+	sponsordesc = models.TextField(blank=True, null=True)
 	gendesc = models.TextField()
 	shortdesc = models.CharField(max_length=280)
 	image = models.ImageField(upload_to='prize')
 	state = USStateField()
 	rules = models.TextField()
-	maxtickets = models.IntegerField(blank=True)
+	maxtickets = models.IntegerField(blank=True, null=True)
+
+	hot = models.BooleanField()
+	sponsored = models.BooleanField()   # extra $5 per day for highlighted text
+	hosted = models.BooleanField()
+	nonhostedurl = models.URLField(blank=True, null=True)
 
 	def __unicode__(self):
 		return self.title
@@ -89,7 +94,9 @@ class RaffleImage(models.Model):
 class Entry(models.Model):
 	raffle = models.ForeignKey(Raffle)
 	user = models.ForeignKey(User)
-	count = models.IntegerField()
+	count = models.PositiveIntegerField()
+	value = models.DecimalField(max_digits=9, decimal_places=2)
+	time = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
 		return self.user.username
@@ -134,7 +141,7 @@ class CreateRaffleForm(ModelForm):
 class EntryForm(ModelForm):
 	class Meta:
 		model = Entry
-		exclude = ['raffle', 'user']
+		exclude = ['raffle', 'user', 'time', 'value']
 
 	def __init__(self,extuser,*args,**kwargs):
 		self.extuser = extuser
@@ -147,7 +154,5 @@ class EntryForm(ModelForm):
 		try:tickets = self.extuser.tickets
 		except: raise forms.ValidationError('You need tickets!')
 		if entries > tickets: raise forms.ValidationError('You need more tickets!')
-		
-
 
 		return cleaned_data

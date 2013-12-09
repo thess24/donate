@@ -1,6 +1,6 @@
 # Create your views here.
 from django.shortcuts import render, get_object_or_404
-from apps.main.models import Sponsor, Charity, Raffle, Entry, EntryForm, CharityImage, RaffleLevel, UserExtend, CreateRaffleForm
+from apps.main.models import Sponsor, Charity, Raffle, Entry, EntryForm, CharityImage, RaffleLevel, UserExtend, CreateRaffleForm, RaffleImage
 import datetime
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,7 @@ from django.db.models import Sum
 def index(request):
 
 	return render(request, 'main/index.html', )
-
+ 
 def about(request): 
 
 	return render(request, 'main/about.html', )
@@ -31,9 +31,7 @@ def raffle(request, raffle):
 	levels = RaffleLevel.objects.filter(raffle=raffleobject)
 	try:extuser = UserExtend.objects.get(user=request.user)
 	except:extuser={} 
-	try:
-		entries = Entry.objects.filter(user=request.user, raffle=raffleobject).aggregate(Sum('count'))
-	except:entries={}
+	entries = Entry.objects.filter(user=request.user, raffle=raffleobject).aggregate(Sum('count'))
 
 	if request.method=='POST':
 		if 'addentry' in request.POST:
@@ -48,8 +46,7 @@ def raffle(request, raffle):
 
 				instance.save()
 
-				context= {'raffle':raffleobject, 'levels':levels, 'form':form, 'entries':entries }
-				return render(request, 'main/raffle.html', context)
+				return HttpResponseRedirect(reverse('apps.main.views.raffle', args=(raffle,)))
 
 	else: form = EntryForm(extuser)
 
